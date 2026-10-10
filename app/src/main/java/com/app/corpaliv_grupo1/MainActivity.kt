@@ -14,6 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            // El tema aplica los colores y tipografías de MaterialTheme
             Corpaliv_Grupo1Theme {
                 HomeScreenAdaptativa()
             }
