@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.corpaliv_grupo1.R
 
-// Vista COMPACTA (celulares): todo apilado en una sola columna
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenCompacta() {
@@ -44,7 +44,7 @@ fun HomeScreenCompacta() {
                 contentScale = ContentScale.Fit
             )
             Text(
-                text = "¡Bienvenido a Alba Lab!",
+                text = "¡Bienvenido!",
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleLarge
             )

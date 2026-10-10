@@ -1,0 +1,12 @@
+package com.app.corpaliv_grupo1.navigation
+
+sealed class Screen(val route: String) {
+    data object Home : Screen("home_page")
+    data object Profile : Screen("profile_page")
+    data object Settings : Screen("settings_page")
+
+    //
+    data class Detail(val itemId: String) : Screen("detail_page/{itemId}") {
+        fun buildRoute(): String = route.replace("{itemId}", itemId)
+    }
+}
