@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.app.corpaliv_grupo1.ui.HomeScreen
+import com.app.corpaliv_grupo1.ui.screens.HomeScreenAdaptativa
 import com.app.corpaliv_grupo1.ui.theme.Corpaliv_Grupo1Theme
 
 class MainActivity : ComponentActivity() {
@@ -16,8 +16,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             // El tema aplica los colores y tipografías de MaterialTheme
             Corpaliv_Grupo1Theme {
-                // HomeScreen ya trae su propio Scaffold, así que no se necesita otro aquí
-                HomeScreen()
+                HomeScreenAdaptativa()
             }
         }
     }
@@ -27,6 +26,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainActivityPreview() {
     Corpaliv_Grupo1Theme {
-        HomeScreen()
+        HomeScreenAdaptativa()
     }
 }
