@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.corpaliv_grupo1.ui.HomeScreen
+import com.app.corpaliv_grupo1.ui.screens.PantallaPrincipal
 import com.app.corpaliv_grupo1.ui.screens.ProfileScreen
 import com.app.corpaliv_grupo1.ui.screens.RegistroScreen
 import com.app.corpaliv_grupo1.ui.screens.ResumenScreen
@@ -81,6 +82,11 @@ fun AppNavigation() {
                 Box(Modifier.padding(innerPadding)) {
                     ResumenScreen(usuarioViewModel)
                 }
+            }
+        }
+        composable("modo") {
+            Scaffold { innerPadding ->
+                PantallaPrincipal(modifier = Modifier.padding(innerPadding))
             }
         }
     }
