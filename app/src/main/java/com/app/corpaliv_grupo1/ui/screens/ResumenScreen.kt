@@ -137,6 +137,12 @@ fun ResumenScreen(
                             valor = stringResource(it.etiqueta)
                         )
                     }
+                    estado.frecuencia?.let {
+                        FilaResumen(
+                            etiqueta = R.string.resumen_frecuencia,
+                            valor = stringResource(it.etiqueta)
+                        )
+                    }
                     if (estado.mensaje.isNotBlank()) {
                         FilaResumen(
                             etiqueta = R.string.resumen_mensaje,

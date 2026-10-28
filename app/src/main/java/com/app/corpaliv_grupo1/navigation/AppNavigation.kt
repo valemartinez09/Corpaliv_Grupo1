@@ -10,10 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.app.corpaliv_grupo1.ui.screens.AportePersonaScreen
 import com.app.corpaliv_grupo1.ui.screens.ColaborarScreen
+import com.app.corpaliv_grupo1.ui.screens.FormularioScreen
 import com.app.corpaliv_grupo1.ui.screens.InicioScreen
 import com.app.corpaliv_grupo1.ui.screens.QuienesSomosScreen
 
@@ -46,8 +50,19 @@ fun AppNavigation() {
         composable(Routes.QuienesSomos.route) { QuienesSomosScreen(navController) }
         composable(Routes.Colaborar.route) { ColaborarScreen(navController) }
 
+        composable(Routes.AportePersona.route) { AportePersonaScreen(navController) }
+        composable(
+            route = Routes.Formulario.route,
+            arguments = listOf(
+                navArgument(Routes.Formulario.ARG_FRECUENCIA) {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) { FormularioScreen(navController) }
+
         // Relleno temporal hasta la Parte 4
-        composable(Routes.Formulario.route) { Pendiente("Formulario (Parte 4)") }
         composable(Routes.LoginFuncionario.route) { Pendiente("Login funcionario (Parte 4)") }
         composable(Routes.PanelFuncionario.route) { Pendiente("Panel funcionario (Parte 4)") }
     }

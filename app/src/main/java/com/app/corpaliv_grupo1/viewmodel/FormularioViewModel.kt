@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.app.corpaliv_grupo1.model.FrecuenciaDonacion
 
 class FormularioViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
@@ -25,7 +26,19 @@ class FormularioViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             ?.let { runCatching { TipoColaborador.valueOf(it) }.getOrNull() }
             ?: TipoColaborador.PERSONA
 
-    private val _estado = MutableStateFlow(FormularioUiState(tipo = tipo))
+    // Si la persona eligió donación única o mensual, llega también por la ruta.
+    private val frecuencia: FrecuenciaDonacion? =
+        savedStateHandle.get<String>(Routes.Formulario.ARG_FRECUENCIA)
+            ?.let { runCatching { FrecuenciaDonacion.valueOf(it) }.getOrNull() }
+
+    private val _estado = MutableStateFlow(
+        FormularioUiState(
+            tipo = tipo,
+            frecuencia = frecuencia,
+            // Con frecuencia elegida, la modalidad ya es una donación
+            modalidad = if (frecuencia != null) ModalidadColaboracion.DONACION else null
+        )
+    )
     val estado: StateFlow<FormularioUiState> = _estado.asStateFlow()
 
     fun onNombreChange(valor: String) =

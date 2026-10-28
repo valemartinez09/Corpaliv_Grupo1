@@ -22,6 +22,7 @@ data class FormularioUiState(
     val correo: String = "",
     val modalidad: ModalidadColaboracion? = null,
     val mensaje: String = "",
+    val frecuencia: FrecuenciaDonacion? = null,   // <- nueva
     val aceptaTerminos: Boolean = false,
     val errores: FormularioErrores = FormularioErrores(),
     val envio: EstadoEnvio = EstadoEnvio.EDITANDO
