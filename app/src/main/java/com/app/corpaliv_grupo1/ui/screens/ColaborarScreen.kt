@@ -91,7 +91,7 @@ fun ColaborarScreen(navController: NavController) {
                     acento = colores.primary,
                     sobreAcento = colores.onPrimary,
                     onClick = {
-                        navController.navigate(Routes.Formulario.crear(TipoColaborador.PERSONA))
+                        navController.navigate(Routes.AportePersona.route)
                     }
                 )
                 OpcionTipo(

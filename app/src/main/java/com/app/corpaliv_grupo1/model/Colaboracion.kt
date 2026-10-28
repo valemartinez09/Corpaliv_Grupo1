@@ -11,6 +11,10 @@ enum class ModalidadColaboracion(@StringRes val etiqueta: Int) {
     CAPACITACION(R.string.mod_capacitacion)
 }
 
+enum class FrecuenciaDonacion(@StringRes val etiqueta: Int) {
+    UNICA(R.string.frecuencia_unica),
+    MENSUAL(R.string.frecuencia_mensual)
+}
 enum class TipoColaborador(val modalidades: List<ModalidadColaboracion>) {
     PERSONA(
         listOf(

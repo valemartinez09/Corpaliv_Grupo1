@@ -82,4 +82,18 @@
     <string name="valor_persona">Persona</string>
     <string name="valor_empresa">Empresa</string>
 
+    <!-- Aporte de persona -->
+    <string name="aporte_titulo">Tu aporte</string>
+    <string name="aporte_pregunta">¿Cómo quieres aportar?</string>
+    <string name="aporte_unica">Donación única</string>
+    <string name="aporte_unica_desc">Aporta una sola vez, cuando tú quieras.</string>
+    <string name="aporte_mensual">Hazte socio</string>
+    <string name="aporte_mensual_desc">Dona cada mes y apoya de forma continua nuestros programas.</string>
+    <string name="aporte_otra">Otra forma de ayudar</string>
+    <string name="aporte_otra_desc">Voluntariado, compra de productos o capacitaciones.</string>
+    <string name="frecuencia_unica">Donación única</string>
+    <string name="frecuencia_mensual">Donación mensual (socio)</string>
+    <string name="formulario_aporte">Tu aporte: %1$s</string>
+    <string name="resumen_frecuencia">Frecuencia del aporte</string>
+
 </resources>
