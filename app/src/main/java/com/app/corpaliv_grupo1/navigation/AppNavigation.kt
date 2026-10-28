@@ -20,6 +20,7 @@ import com.app.corpaliv_grupo1.ui.screens.ColaborarScreen
 import com.app.corpaliv_grupo1.ui.screens.FormularioScreen
 import com.app.corpaliv_grupo1.ui.screens.InicioScreen
 import com.app.corpaliv_grupo1.ui.screens.QuienesSomosScreen
+import com.app.corpaliv_grupo1.ui.screens.ProgramasScreen
 
 @Composable
 fun AppNavigation() {
@@ -49,7 +50,7 @@ fun AppNavigation() {
         composable(Routes.Inicio.route) { InicioScreen(navController) }
         composable(Routes.QuienesSomos.route) { QuienesSomosScreen(navController) }
         composable(Routes.Colaborar.route) { ColaborarScreen(navController) }
-
+        composable(Routes.Programas.route) { ProgramasScreen(navController) }
         composable(Routes.AportePersona.route) { AportePersonaScreen(navController) }
         composable(
             route = Routes.Formulario.route,
@@ -65,6 +66,7 @@ fun AppNavigation() {
         // Relleno temporal hasta la Parte 4
         composable(Routes.LoginFuncionario.route) { Pendiente("Login funcionario (Parte 4)") }
         composable(Routes.PanelFuncionario.route) { Pendiente("Panel funcionario (Parte 4)") }
+
     }
 }
 

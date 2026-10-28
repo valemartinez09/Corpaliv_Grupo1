@@ -8,6 +8,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -60,6 +61,11 @@ import com.app.corpaliv_grupo1.ui.theme.MoradoCorpaliv
 import com.app.corpaliv_grupo1.ui.theme.NaranjaCorpaliv
 import com.app.corpaliv_grupo1.ui.theme.RosaCorpaliv
 import com.app.corpaliv_grupo1.ui.theme.VerdeCorpaliv
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
+import com.app.corpaliv_grupo1.ui.theme.RosaClaro
+import com.app.corpaliv_grupo1.ui.theme.RosaOscuro
 
 @Composable
 fun InicioScreen(navController: NavController) {
@@ -190,6 +196,26 @@ fun InicioScreen(navController: NavController) {
                         Spacer(Modifier.size(10.dp))
                         Text(
                             text = stringResource(R.string.btn_quienes_somos),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    Spacer(Modifier.height(16.dp))
+
+                    Button(
+                        onClick = { navController.navigate(Routes.Programas.route) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = RosaClaro,
+                            contentColor = RosaOscuro
+                        )
+                    ) {
+                        Icon(Icons.Default.Star, contentDescription = null)
+                        Spacer(Modifier.size(10.dp))
+                        Text(
+                            text = stringResource(R.string.btn_nuestros_programas),
                             style = MaterialTheme.typography.titleMedium
                         )
                     }

@@ -7,6 +7,8 @@ sealed class Routes(val route: String) {
     object Inicio : Routes("inicio")
     object QuienesSomos : Routes("quienes_somos")
     object Colaborar : Routes("colaborar")
+
+    object Programas : Routes("programas")
     object AportePersona : Routes("aporte_persona")
     object Formulario : Routes("formulario/{tipo}?frecuencia={frecuencia}") {
         const val ARG_TIPO = "tipo"
