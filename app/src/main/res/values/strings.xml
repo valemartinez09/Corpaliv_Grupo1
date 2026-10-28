@@ -1,3 +1,85 @@
 <resources>
-    <string name="app_name">Corpaliv_Grupo1</string>
+    <string name="app_name">CORPALIV</string>
+
+    <!-- Accesibilidad -->
+    <string name="cd_logo">Logo de CORPALIV</string>
+    <string name="cd_volver">Volver</string>
+    <string name="cd_acceso_funcionario">Acceso para funcionarios</string>
+
+    <!-- Inicio -->
+    <string name="inicio_nombre">CORPALIV</string>
+    <string name="inicio_subtitulo">Corporación de Padres y Amigos por el Limitado Visual</string>
+    <string name="inicio_lema">Inclusión social y laboral junto a Alba Lab</string>
+    <string name="btn_quiero_colaborar">Quiero colaborar</string>
+    <string name="btn_quienes_somos">Quiénes somos</string>
+
+    <!-- Quiénes somos -->
+    <string name="quienes_titulo">Quiénes somos</string>
+    <string name="quienes_intro">CORPALIV es una organización sin fines de lucro que promueve la autonomía, la participación y la inclusión social y laboral de personas con discapacidad múltiple.</string>
+    <string name="quienes_trabajo_titulo">Nuestro trabajo</string>
+    <string name="quienes_trabajo_texto">A través de la Escuela Especial Jan Van Dijk y la Red Sociolaboral Alba Lab desarrollamos programas de formación, preparación para el empleo, producción y comercialización de productos.</string>
+    <string name="quienes_vinculacion_titulo">Vinculación</string>
+    <string name="quienes_vinculacion_texto">Trabajamos junto a empresas, familias y donantes en iniciativas de responsabilidad social empresarial.</string>
+    <string name="quienes_ayuda_titulo">Cómo puedes ayudar</string>
+    <string name="quienes_ayuda_texto">Con donaciones, alianzas, voluntariado, compra de productos o capacitaciones. Cada aporte se transforma en oportunidades reales.</string>
+
+    <!-- Colaborar -->
+    <string name="colaborar_titulo">Quiero colaborar</string>
+    <string name="colaborar_pregunta">¿Cómo quieres colaborar?</string>
+    <string name="colaborar_persona">Como persona</string>
+    <string name="colaborar_persona_desc">Dona, hazte voluntario o compra productos con impacto social.</string>
+    <string name="colaborar_empresa">Como empresa</string>
+    <string name="colaborar_empresa_desc">Alianzas de RSE, capacitaciones y compras corporativas.</string>
+
+    <!-- Formulario -->
+    <string name="formulario_titulo_persona">Registro de persona</string>
+    <string name="formulario_titulo_empresa">Registro de empresa</string>
+    <string name="formulario_aviso_demo">Demo académica: usa solo datos ficticios, no ingreses datos personales reales.</string>
+    <string name="label_nombre_persona">Nombre completo</string>
+    <string name="label_nombre_empresa">Nombre de la empresa</string>
+    <string name="label_contacto">Persona de contacto</string>
+    <string name="label_correo">Correo electrónico</string>
+    <string name="label_modalidad">¿Cómo te gustaría colaborar?</string>
+    <string name="label_mensaje">Mensaje (opcional)</string>
+    <string name="formulario_terminos">Acepto que CORPALIV me contacte</string>
+    <string name="formulario_enviar">Enviar mi interés</string>
+
+    <string name="error_nombre">Ingresa un nombre</string>
+    <string name="error_contacto">Ingresa una persona de contacto</string>
+    <string name="error_correo">Correo inválido</string>
+    <string name="error_modalidad">Elige una opción</string>
+    <string name="error_terminos">Debes aceptar para continuar</string>
+
+    <string name="mod_donacion">Donación</string>
+    <string name="mod_alianza">Alianza de RSE</string>
+    <string name="mod_voluntariado">Voluntariado</string>
+    <string name="mod_compra">Compra de productos</string>
+    <string name="mod_capacitacion">Capacitación</string>
+
+    <string name="enviando">Enviando tu interés…</string>
+    <string name="exito_titulo">¡Gracias por tu interés!</string>
+    <string name="exito_mensaje">Nos pondremos en contacto a la brevedad.</string>
+    <string name="btn_volver_inicio">Volver al inicio</string>
+
+    <!-- Funcionario -->
+    <string name="login_titulo">Acceso funcionarios</string>
+    <string name="label_usuario">Usuario</string>
+    <string name="label_clave">Contraseña</string>
+    <string name="btn_ingresar">Ingresar</string>
+    <string name="error_usuario">Ingresa tu usuario</string>
+    <string name="error_clave">Ingresa tu contraseña</string>
+    <string name="error_credenciales">Usuario o contraseña incorrectos</string>
+    <string name="login_demo">Demo: usuario funcionario · contraseña alba2026</string>
+    <string name="panel_titulo">Panel de funcionario</string>
+    <string name="panel_proximamente">Aquí verás los registros de interés recibidos.</string>
+    <string name="btn_cerrar_sesion">Cerrar sesión</string>
+
+    <!-- Resumen -->
+    <string name="resumen_titulo">Resumen de tu registro</string>
+    <string name="resumen_tipo">Registrado como</string>
+    <string name="resumen_modalidad">Tipo de colaboración</string>
+    <string name="resumen_mensaje">Mensaje</string>
+    <string name="valor_persona">Persona</string>
+    <string name="valor_empresa">Empresa</string>
+
 </resources>

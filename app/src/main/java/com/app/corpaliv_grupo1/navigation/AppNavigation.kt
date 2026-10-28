@@ -1,93 +1,61 @@
 package com.app.corpaliv_grupo1.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.corpaliv_grupo1.ui.HomeScreen
-import com.app.corpaliv_grupo1.ui.screens.PantallaPrincipal
-import com.app.corpaliv_grupo1.ui.screens.ProfileScreen
-import com.app.corpaliv_grupo1.ui.screens.RegistroScreen
-import com.app.corpaliv_grupo1.ui.screens.ResumenScreen
-import com.app.corpaliv_grupo1.ui.screens.SettingsScreen
-import com.app.corpaliv_grupo1.viewmodel.MainViewModel
-import com.app.corpaliv_grupo1.viewmodel.UsuarioViewModel
-import kotlinx.coroutines.flow.collectLatest
+import com.app.corpaliv_grupo1.ui.screens.ColaborarScreen
+import com.app.corpaliv_grupo1.ui.screens.InicioScreen
+import com.app.corpaliv_grupo1.ui.screens.QuienesSomosScreen
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-
-    // ViewModel de navegación (Guía 10)
-    val viewModel: MainViewModel = viewModel()
-
-    // ViewModel del formulario: se crea UNA sola vez y se comparte entre registro y resumen
-    val usuarioViewModel: UsuarioViewModel = viewModel()
-
-    // Escuchar eventos de navegación emitidos por el ViewModel
-    LaunchedEffect(key1 = Unit) {
-        viewModel.navigationEvents.collectLatest { event ->
-            when (event) {
-                is NavigationEvent.NavigateTo -> {
-                    navController.navigate(event.route.route) {
-                        event.popUpToRoute?.let {
-                            popUpTo(route = it.route) {
-                                inclusive = event.inclusive
-                            }
-                        }
-                        launchSingleTop = event.singleTop
-                        restoreState = true
-                    }
-                }
-
-                is NavigationEvent.PopBackStack -> navController.popBackStack()
-                is NavigationEvent.NavigateUp -> navController.navigateUp()
-            }
-        }
-    }
+    val duracion = 350
 
     NavHost(
         navController = navController,
-        startDestination = "registro", // para volver a la demo anterior: Screen.Home.route
-        modifier = Modifier.fillMaxSize()
+        startDestination = Routes.Inicio.route,
+        enterTransition = {
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(duracion)) +
+                    fadeIn(tween(duracion))
+        },
+        exitTransition = {
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(duracion)) +
+                    fadeOut(tween(duracion))
+        },
+        popEnterTransition = {
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(duracion)) +
+                    fadeIn(tween(duracion))
+        },
+        popExitTransition = {
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(duracion)) +
+                    fadeOut(tween(duracion))
+        }
     ) {
-        // Rutas de la Guía 10
-        composable(Screen.Home.route) {
-            HomeScreen(navController, viewModel)
-        }
-        composable(Screen.Profile.route) {
-            ProfileScreen(navController, viewModel)
-        }
-        composable(Screen.Settings.route) {
-            SettingsScreen(navController, viewModel)
-        }
+        composable(Routes.Inicio.route) { InicioScreen(navController) }
+        composable(Routes.QuienesSomos.route) { QuienesSomosScreen(navController) }
+        composable(Routes.Colaborar.route) { ColaborarScreen(navController) }
 
-        // Rutas de la Guía 11 (el Scaffold respeta la barra de estado)
-        composable("registro") {
-            Scaffold { innerPadding ->
-                Box(Modifier.padding(innerPadding)) {
-                    RegistroScreen(navController, usuarioViewModel)
-                }
-            }
-        }
-        composable("resumen") {
-            Scaffold { innerPadding ->
-                Box(Modifier.padding(innerPadding)) {
-                    ResumenScreen(usuarioViewModel)
-                }
-            }
-        }
-        composable("modo") {
-            Scaffold { innerPadding ->
-                PantallaPrincipal(modifier = Modifier.padding(innerPadding))
-            }
-        }
+        // Relleno temporal hasta la Parte 4
+        composable(Routes.Formulario.route) { Pendiente("Formulario (Parte 4)") }
+        composable(Routes.LoginFuncionario.route) { Pendiente("Login funcionario (Parte 4)") }
+        composable(Routes.PanelFuncionario.route) { Pendiente("Panel funcionario (Parte 4)") }
+    }
+}
+
+@Composable
+private fun Pendiente(texto: String) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(texto)
     }
 }
