@@ -4,12 +4,7 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,6 +14,8 @@ import com.app.corpaliv_grupo1.ui.screens.AportePersonaScreen
 import com.app.corpaliv_grupo1.ui.screens.ColaborarScreen
 import com.app.corpaliv_grupo1.ui.screens.FormularioScreen
 import com.app.corpaliv_grupo1.ui.screens.InicioScreen
+import com.app.corpaliv_grupo1.ui.screens.LoginFuncionarioScreen
+import com.app.corpaliv_grupo1.ui.screens.PanelFuncionarioScreen
 import com.app.corpaliv_grupo1.ui.screens.QuienesSomosScreen
 import com.app.corpaliv_grupo1.ui.screens.ProgramasScreen
 
@@ -63,16 +60,7 @@ fun AppNavigation() {
             )
         ) { FormularioScreen(navController) }
 
-        // Relleno temporal hasta la Parte 4
-        composable(Routes.LoginFuncionario.route) { Pendiente("Login funcionario (Parte 4)") }
-        composable(Routes.PanelFuncionario.route) { Pendiente("Panel funcionario (Parte 4)") }
-
-    }
-}
-
-@Composable
-private fun Pendiente(texto: String) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(texto)
+        composable(Routes.LoginFuncionario.route) { LoginFuncionarioScreen(navController) }
+        composable(Routes.PanelFuncionario.route) { PanelFuncionarioScreen(navController) }
     }
 }
