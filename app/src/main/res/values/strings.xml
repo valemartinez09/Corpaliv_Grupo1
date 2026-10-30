@@ -96,4 +96,13 @@
     <string name="formulario_aporte">Tu aporte: %1$s</string>
     <string name="resumen_frecuencia">Frecuencia del aporte</string>
 
+    <!-- Carta de presentación (voluntariado) -->
+    <string name="carta_titulo">Carta de presentación (opcional)</string>
+    <string name="carta_ayuda">Adjunta tu carta en PDF, Word o texto. Máximo 5 MB. No subas datos personales reales.</string>
+    <string name="carta_adjuntar">Adjuntar carta</string>
+    <string name="carta_quitar">Quitar carta</string>
+    <string name="error_carta_tipo">Formato no permitido. Usa PDF, Word o texto.</string>
+    <string name="error_carta_tamano">El archivo supera los 5 MB.</string>
+    <string name="resumen_carta">Carta de presentación</string>
+
 </resources>

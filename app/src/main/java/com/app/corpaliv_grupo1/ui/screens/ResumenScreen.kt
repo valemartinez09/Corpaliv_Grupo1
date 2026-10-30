@@ -143,6 +143,12 @@ fun ResumenScreen(
                             valor = stringResource(it.etiqueta)
                         )
                     }
+                    estado.carta?.let {
+                        FilaResumen(
+                            etiqueta = R.string.resumen_carta,
+                            valor = it.nombre
+                        )
+                    }
                     if (estado.mensaje.isNotBlank()) {
                         FilaResumen(
                             etiqueta = R.string.resumen_mensaje,
