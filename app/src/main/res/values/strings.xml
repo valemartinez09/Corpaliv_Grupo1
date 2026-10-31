@@ -107,4 +107,17 @@
     <string name="programa_escuela_titulo">Escuela Jan Van Dijk</string>
     <string name="programa_escuela_texto">Somos un equipo colaborativo de profesionales que trabajan para dar atención especializada desde temprana edad a niños, niñas y jóvenes que presentan discapacidad múltiple con base sensorial o sordoceguera, fomentando así las competencias necesarias para propiciar su independencia y autonomía en los ámbitos familiar, escolar y comunitario.</string>
 
+    <!-- Panel del funcionario: registros guardados -->
+    <string name="panel_vacio">Aún no hay registros de interés.</string>
+    <string name="panel_total">Registros recibidos: %1$d</string>
+    <string name="panel_contacto">Contacto: %1$s</string>
+    <string name="panel_correo">Correo: %1$s</string>
+    <string name="panel_mensaje">Mensaje: %1$s</string>
+    <string name="cd_eliminar_registro">Eliminar registro</string>
+    <string name="dialogo_eliminar_titulo">¿Eliminar registro?</string>
+    <string name="dialogo_eliminar_texto">Esta acción no se puede deshacer.</string>
+    <string name="btn_eliminar">Eliminar</string>
+    <string name="btn_cancelar">Cancelar</string>
+    <string name="error_guardado">No se pudo guardar tu registro. Inténtalo de nuevo.</string>
+
 </resources>

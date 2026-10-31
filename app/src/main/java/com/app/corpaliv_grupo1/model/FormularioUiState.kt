@@ -25,5 +25,6 @@ data class FormularioUiState(
     val frecuencia: FrecuenciaDonacion? = null,   // <- nueva
     val aceptaTerminos: Boolean = false,
     val errores: FormularioErrores = FormularioErrores(),
-    val envio: EstadoEnvio = EstadoEnvio.EDITANDO
+    val envio: EstadoEnvio = EstadoEnvio.EDITANDO,
+    val errorGuardado: Boolean = false   // true si falló el guardado en la base
 )

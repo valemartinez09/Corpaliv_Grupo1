@@ -298,6 +298,23 @@ private fun ContenidoFormulario(
                 }
             }
 
+            // Error si no se pudo guardar en la base local
+            if (estado.errorGuardado) {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                ) {
+                    Text(
+                        text = stringResource(R.string.error_guardado),
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
             Button(
                 onClick = {
                     foco.clearFocus()
