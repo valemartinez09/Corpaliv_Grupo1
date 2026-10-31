@@ -5,8 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.app.corpaliv_grupo1.R
+import com.app.corpaliv_grupo1.model.ArchivoAdjunto
 import com.app.corpaliv_grupo1.model.EstadoEnvio
 import com.app.corpaliv_grupo1.model.FormularioErrores
+import com.app.corpaliv_grupo1.model.FrecuenciaDonacion
 import com.app.corpaliv_grupo1.model.FormularioUiState
 import com.app.corpaliv_grupo1.model.FrecuenciaDonacion
 import com.app.corpaliv_grupo1.model.ModalidadColaboracion
@@ -60,7 +62,35 @@ class FormularioViewModel(
         _estado.update { it.copy(correo = valor, errores = it.errores.copy(correo = null)) }
 
     fun onModalidadChange(valor: ModalidadColaboracion) =
-        _estado.update { it.copy(modalidad = valor, errores = it.errores.copy(modalidad = null)) }
+        _estado.update {
+            it.copy(
+                modalidad = valor,
+                // La carta solo existe en voluntariado
+                carta = if (valor == ModalidadColaboracion.VOLUNTARIADO) it.carta else null,
+                errores = it.errores.copy(
+                    modalidad = null,
+                    carta = if (valor == ModalidadColaboracion.VOLUNTARIADO) it.errores.carta else null
+                )
+            )
+        }
+
+    /** Recibe el documento elegido y valida formato y tamaño antes de aceptarlo. */
+    fun onCartaSeleccionada(archivo: ArchivoAdjunto) {
+        val error = when {
+            archivo.tipoMime !in Archivos.TIPOS_PERMITIDOS -> R.string.error_carta_tipo
+            archivo.tamanoBytes > Archivos.MAX_BYTES -> R.string.error_carta_tamano
+            else -> null
+        }
+        _estado.update {
+            it.copy(
+                carta = if (error == null) archivo else null,
+                errores = it.errores.copy(carta = error)
+            )
+        }
+    }
+
+    fun onCartaEliminada() =
+        _estado.update { it.copy(carta = null, errores = it.errores.copy(carta = null)) }
 
     fun onMensajeChange(valor: String) =
         _estado.update { it.copy(mensaje = valor) }
@@ -76,7 +106,8 @@ class FormularioViewModel(
                 R.string.error_contacto else null,
             correo = if (!CORREO_REGEX.matches(s.correo.trim())) R.string.error_correo else null,
             modalidad = if (s.modalidad == null) R.string.error_modalidad else null,
-            terminos = if (!s.aceptaTerminos) R.string.error_terminos else null
+            terminos = if (!s.aceptaTerminos) R.string.error_terminos else null,
+            carta = s.errores.carta
         )
         _estado.update { it.copy(errores = errores) }
         return errores.sinErrores()

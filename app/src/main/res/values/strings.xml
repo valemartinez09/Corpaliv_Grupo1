@@ -96,16 +96,14 @@
     <string name="formulario_aporte">Tu aporte: %1$s</string>
     <string name="resumen_frecuencia">Frecuencia del aporte</string>
 
-    <!-- Nuestros programas -->
-    <string name="btn_nuestros_programas">Nuestros programas</string>
-    <string name="programas_titulo">Nuestros programas</string>
-    <string name="programas_intro">Conoce las iniciativas con las que acompañamos a personas con discapacidad múltiple.</string>
-    <string name="programa_inclusion_titulo">Programa de Inclusión Laboral</string>
-    <string name="programa_inclusion_texto">Brindamos una variedad de mecanismos diseñados específicamente para promover y facilitar la inclusión laboral de personas con discapacidad múltiple.\n\nEstos mecanismos están orientados a ayudarlas a integrarse de manera efectiva y exitosa en el mundo laboral, garantizando así que puedan desarrollar sus habilidades y alcanzar su máximo potencial en sus entornos de trabajo.</string>
-    <string name="programa_taller_titulo">Taller Sociolaboral</string>
-    <string name="programa_taller_texto">Nos enfocamos en la formación integral de personas, brindándoles habilidades sociales, emocionales y laborales que les permitan integrarse con éxito al mundo laboral.\n\nA través de diversas metodologías, fortalecemos su independencia, autonomía y competencias de empleabilidad. Además de estas habilidades, también nos dedicamos al diseño, fabricación y producción de productos con valor y sentido, fomentando un ambiente de colaboración, aprendizaje y crecimiento mutuo entre beneficiarios y emprendimientos.</string>
-    <string name="programa_escuela_titulo">Escuela Jan Van Dijk</string>
-    <string name="programa_escuela_texto">Somos un equipo colaborativo de profesionales que trabajan para dar atención especializada desde temprana edad a niños, niñas y jóvenes que presentan discapacidad múltiple con base sensorial o sordoceguera, fomentando así las competencias necesarias para propiciar su independencia y autonomía en los ámbitos familiar, escolar y comunitario.</string>
+    <!-- Carta de presentación (voluntariado) -->
+    <string name="carta_titulo">Carta de presentación (opcional)</string>
+    <string name="carta_ayuda">Adjunta tu carta en PDF, Word o texto. Máximo 5 MB. No subas datos personales reales.</string>
+    <string name="carta_adjuntar">Adjuntar carta</string>
+    <string name="carta_quitar">Quitar carta</string>
+    <string name="error_carta_tipo">Formato no permitido. Usa PDF, Word o texto.</string>
+    <string name="error_carta_tamano">El archivo supera los 5 MB.</string>
+    <string name="resumen_carta">Carta de presentación</string>
 
     <!-- Panel del funcionario: registros guardados -->
     <string name="panel_vacio">Aún no hay registros de interés.</string>

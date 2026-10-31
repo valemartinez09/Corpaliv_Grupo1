@@ -1,5 +1,9 @@
 package com.app.corpaliv_grupo1.ui.screens
 
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +24,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
@@ -33,6 +39,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,12 +48,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -57,6 +66,7 @@ import com.app.corpaliv_grupo1.model.ModalidadColaboracion
 import com.app.corpaliv_grupo1.model.TipoColaborador
 import com.app.corpaliv_grupo1.navigation.Routes
 import com.app.corpaliv_grupo1.ui.components.CampoTexto
+import com.app.corpaliv_grupo1.util.Archivos
 import com.app.corpaliv_grupo1.viewmodel.FormularioViewModel
 
 /**
@@ -133,6 +143,23 @@ private fun ContenidoFormulario(
 ) {
     val estado by viewModel.estado.collectAsStateWithLifecycle()
     val foco = LocalFocusManager.current
+    val contexto = LocalContext.current
+
+    // Recurso nativo: selector de documentos del sistema (no requiere permisos de almacenamiento)
+    val selectorCarta = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri != null) {
+            // Si el sistema lo permite, conserva el acceso al archivo para guardarlo después
+            runCatching {
+                contexto.contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            }
+            viewModel.onCartaSeleccionada(Archivos.leer(contexto, uri))
+        }
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -252,6 +279,80 @@ private fun ContenidoFormulario(
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall
                     )
+                }
+            }
+
+            // Carta de presentación: solo si eligió voluntariado
+            AnimatedVisibility(visible = estado.modalidad == ModalidadColaboracion.VOLUNTARIADO) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(
+                        text = stringResource(R.string.carta_titulo),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = stringResource(R.string.carta_ayuda),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                    val carta = estado.carta
+                    if (carta == null) {
+                        OutlinedButton(
+                            onClick = { selectorCarta.launch(Archivos.TIPOS_PERMITIDOS) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp)
+                        ) {
+                            Icon(Icons.Default.Add, contentDescription = null)
+                            Text(
+                                text = stringResource(R.string.carta_adjuntar),
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
+                    } else {
+                        Card(
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 16.dp, top = 8.dp, bottom = 8.dp, end = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = carta.nombre,
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        fontWeight = FontWeight.Bold,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                    Text(
+                                        text = Archivos.formatearTamano(carta.tamanoBytes),
+                                        style = MaterialTheme.typography.bodySmall
+                                    )
+                                }
+                                IconButton(onClick = viewModel::onCartaEliminada) {
+                                    Icon(
+                                        Icons.Default.Close,
+                                        contentDescription = stringResource(R.string.carta_quitar)
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    estado.errores.carta?.let {
+                        Text(
+                            text = stringResource(it),
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
                 }
             }
 
