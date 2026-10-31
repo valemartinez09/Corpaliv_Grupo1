@@ -10,17 +10,16 @@ Aplicación Android desarrollada con **Kotlin** y **Jetpack Compose** que repres
 
 ## 👥 Integrantes
 
-| Nombre | Rol / aportes principales |
+| Nombre |
 |---|---|
-| [NOMBRE APELLIDO – Integrante 1] | [ej.: pantalla de inicio, formulario, persistencia con Room] |
-| [NOMBRE APELLIDO – Integrante 2] | [ej.: diseño adaptativo, login y panel del funcionario] |
+| [ALEXANDRA VICUÑA – Integrante 1] 
+| [VALENTINA MARTINEZ – Integrante 2] 
 
-**Equipo:** Grupo 1 · **Sección:** [SECCIÓN] · **Docente:** [NOMBRE DOCENTE]
+**Equipo:** Grupo 1 · **Sección:** [DSY1105] ·
 
 ## 🔗 Enlaces
 
 - Repositorio: [URL DEL REPOSITORIO EN GITHUB]
-- Planificación (Trello): [URL DEL TABLERO DE TRELLO]
 
 ---
 
@@ -132,7 +131,6 @@ app/src/main/java/com/app/corpaliv_grupo1/
 ## 🤝 Colaboración y control de versiones
 
 - **Git/GitHub:** trabajo por ramas (`feature/...`) integradas a `main`, con commits descriptivos de cada cambio.
-- **Trello:** tablero con la distribución de tareas entre ambos integrantes: [URL DEL TABLERO DE TRELLO]
 
 ## ⚠️ Alcance y limitaciones (MVP)
 
