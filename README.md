@@ -14,11 +14,6 @@ Valentina Martinez y Alexandra Vicuña
 
 **Equipo:** Grupo 1 · **Sección:** [DSY1105] ·
 
-## 🔗 Enlaces
-
-- Repositorio: [URL DEL REPOSITORIO EN GITHUB]
-
----
 
 ## 🎯 Contexto y problema
 
