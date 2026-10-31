@@ -66,7 +66,7 @@ import com.app.corpaliv_grupo1.model.ModalidadColaboracion
 import com.app.corpaliv_grupo1.model.TipoColaborador
 import com.app.corpaliv_grupo1.navigation.Routes
 import com.app.corpaliv_grupo1.ui.components.CampoTexto
-import com.app.corpaliv_grupo1.util.Archivos
+import com.app.corpaliv_grupo1.ui.utils.Archivos
 import com.app.corpaliv_grupo1.viewmodel.FormularioViewModel
 
 /**

@@ -8,7 +8,6 @@ import com.app.corpaliv_grupo1.R
 import com.app.corpaliv_grupo1.model.ArchivoAdjunto
 import com.app.corpaliv_grupo1.model.EstadoEnvio
 import com.app.corpaliv_grupo1.model.FormularioErrores
-import com.app.corpaliv_grupo1.model.FrecuenciaDonacion
 import com.app.corpaliv_grupo1.model.FormularioUiState
 import com.app.corpaliv_grupo1.model.FrecuenciaDonacion
 import com.app.corpaliv_grupo1.model.ModalidadColaboracion
@@ -16,6 +15,7 @@ import com.app.corpaliv_grupo1.model.Registro
 import com.app.corpaliv_grupo1.model.TipoColaborador
 import com.app.corpaliv_grupo1.navigation.Routes
 import com.app.corpaliv_grupo1.repository.RegistroRepository
+import com.app.corpaliv_grupo1.ui.utils.Archivos
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

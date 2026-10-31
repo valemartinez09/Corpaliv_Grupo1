@@ -96,7 +96,22 @@
     <string name="formulario_aporte">Tu aporte: %1$s</string>
     <string name="resumen_frecuencia">Frecuencia del aporte</string>
 
+    <!-- Programas -->
+    <string name="programas_titulo">Nuestros programas</string>
+    <string name="programas_intro">Conoce cómo transformamos cada aporte en oportunidades reales de inclusión.</string>
+    <string name="btn_nuestros_programas">Nuestros programas</string>
+
+    <string name="programa_inclusion_titulo">Inclusión sociolaboral</string>
+    <string name="programa_inclusion_texto">A través de la Red Sociolaboral Alba Lab preparamos a personas con discapacidad múltiple para el empleo y trabajamos con empresas para generar oportunidades laborales reales.</string>
+
+    <string name="programa_taller_titulo">Producción y comercialización</string>
+    <string name="programa_taller_texto">Nuestros talleres elaboran productos con impacto social. Cada compra apoya la autonomía de quienes los producen.</string>
+
+    <string name="programa_escuela_titulo">Escuela Jan Van Dijk</string>
+    <string name="programa_escuela_texto">La Escuela Especial Jan Van Dijk ofrece formación pensada para desarrollar la autonomía y la participación de cada estudiante.</string>
+
     <!-- Carta de presentación (voluntariado) -->
+
     <string name="carta_titulo">Carta de presentación (opcional)</string>
     <string name="carta_ayuda">Adjunta tu carta en PDF, Word o texto. Máximo 5 MB. No subas datos personales reales.</string>
     <string name="carta_adjuntar">Adjuntar carta</string>
@@ -117,5 +132,8 @@
     <string name="btn_eliminar">Eliminar</string>
     <string name="btn_cancelar">Cancelar</string>
     <string name="error_guardado">No se pudo guardar tu registro. Inténtalo de nuevo.</string>
+
+
+
 
 </resources>
