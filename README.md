@@ -10,10 +10,7 @@ Aplicación Android desarrollada con **Kotlin** y **Jetpack Compose** que repres
 
 ## 👥 Integrantes
 
-| Nombre |
-|---|---|
-| [ALEXANDRA VICUÑA – Integrante 1] 
-| [VALENTINA MARTINEZ – Integrante 2] 
+Valentina Martinez y Alexandra Vicuña
 
 **Equipo:** Grupo 1 · **Sección:** [DSY1105] ·
 
