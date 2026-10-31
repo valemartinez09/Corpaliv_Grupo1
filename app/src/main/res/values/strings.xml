@@ -105,4 +105,17 @@
     <string name="error_carta_tamano">El archivo supera los 5 MB.</string>
     <string name="resumen_carta">Carta de presentación</string>
 
+    <!-- Panel del funcionario: registros guardados -->
+    <string name="panel_vacio">Aún no hay registros de interés.</string>
+    <string name="panel_total">Registros recibidos: %1$d</string>
+    <string name="panel_contacto">Contacto: %1$s</string>
+    <string name="panel_correo">Correo: %1$s</string>
+    <string name="panel_mensaje">Mensaje: %1$s</string>
+    <string name="cd_eliminar_registro">Eliminar registro</string>
+    <string name="dialogo_eliminar_titulo">¿Eliminar registro?</string>
+    <string name="dialogo_eliminar_texto">Esta acción no se puede deshacer.</string>
+    <string name="btn_eliminar">Eliminar</string>
+    <string name="btn_cancelar">Cancelar</string>
+    <string name="error_guardado">No se pudo guardar tu registro. Inténtalo de nuevo.</string>
+
 </resources>
