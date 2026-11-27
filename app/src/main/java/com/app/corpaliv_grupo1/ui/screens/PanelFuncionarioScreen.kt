@@ -5,29 +5,38 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,7 +51,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.app.corpaliv_grupo1.R
-import com.app.corpaliv_grupo1.model.Registro
+import com.app.corpaliv_grupo1.data.remote.dto.RegistroResponse
+import com.app.corpaliv_grupo1.model.EstadoRegistro
 import com.app.corpaliv_grupo1.model.TipoColaborador
 import com.app.corpaliv_grupo1.navigation.Routes
 import com.app.corpaliv_grupo1.viewmodel.PanelFuncionarioViewModel
@@ -50,7 +60,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-/** Panel del funcionario: lista los registros de interés guardados en Room. */
+/** Panel del funcionario: lista los registros de interés que entrega registros-service. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PanelFuncionarioScreen(
@@ -59,12 +69,32 @@ fun PanelFuncionarioScreen(
 ) {
     val estado by viewModel.estado.collectAsStateWithLifecycle()
     // Registro pendiente de confirmar eliminación (null = sin diálogo)
-    var porEliminar by remember { mutableStateOf<Registro?>(null) }
+    var porEliminar by remember { mutableStateOf<RegistroResponse?>(null) }
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val mensajeErrorAccion = stringResource(R.string.panel_error_accion)
+    LaunchedEffect(estado.errorAccion) {
+        if (estado.errorAccion) {
+            snackbarHostState.showSnackbar(mensajeErrorAccion)
+            viewModel.descartarErrorAccion()
+        }
+    }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.panel_titulo)) })
-        }
+            TopAppBar(
+                title = { Text(stringResource(R.string.panel_titulo)) },
+                actions = {
+                    IconButton(onClick = viewModel::cargar, enabled = !estado.cargando) {
+                        Icon(
+                            Icons.Default.Refresh,
+                            contentDescription = stringResource(R.string.cd_actualizar)
+                        )
+                    }
+                }
+            )
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
         Box(
             modifier = Modifier
@@ -87,6 +117,20 @@ fun PanelFuncionarioScreen(
                     when {
                         estado.cargando -> CircularProgressIndicator()
 
+                        estado.errorCarga -> Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.panel_error_carga),
+                                style = MaterialTheme.typography.bodyLarge,
+                                textAlign = TextAlign.Center
+                            )
+                            Button(onClick = viewModel::cargar) {
+                                Text(stringResource(R.string.panel_reintentar))
+                            }
+                        }
+
                         estado.registros.isEmpty() -> Text(
                             text = stringResource(R.string.panel_vacio),
                             style = MaterialTheme.typography.bodyLarge,
@@ -107,6 +151,8 @@ fun PanelFuncionarioScreen(
                                 items(estado.registros, key = { it.id }) { registro ->
                                     RegistroCard(
                                         registro = registro,
+                                        procesando = estado.procesandoId == registro.id,
+                                        onContactado = { viewModel.marcarContactado(registro.id) },
                                         onEliminar = { porEliminar = registro }
                                     )
                                 }
@@ -157,7 +203,12 @@ fun PanelFuncionarioScreen(
 }
 
 @Composable
-private fun RegistroCard(registro: Registro, onEliminar: () -> Unit) {
+private fun RegistroCard(
+    registro: RegistroResponse,
+    procesando: Boolean,
+    onContactado: () -> Unit,
+    onEliminar: () -> Unit
+) {
     val fecha = remember(registro.fecha) {
         SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("es", "CL")).format(Date(registro.fecha))
     }
@@ -165,6 +216,7 @@ private fun RegistroCard(registro: Registro, onEliminar: () -> Unit) {
         if (registro.tipo == TipoColaborador.EMPRESA) R.string.valor_empresa
         else R.string.valor_persona
     )
+    val contactado = registro.estado == EstadoRegistro.CONTACTADO
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -190,7 +242,7 @@ private fun RegistroCard(registro: Registro, onEliminar: () -> Unit) {
                     )
                     Text(text = fecha, style = MaterialTheme.typography.labelSmall)
                 }
-                IconButton(onClick = onEliminar) {
+                IconButton(onClick = onEliminar, enabled = !procesando) {
                     Icon(
                         Icons.Default.Delete,
                         contentDescription = stringResource(R.string.cd_eliminar_registro)
@@ -202,12 +254,20 @@ private fun RegistroCard(registro: Registro, onEliminar: () -> Unit) {
                 modifier = Modifier.padding(end = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Text(
-                    text = registro.nombre,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                if (registro.contacto.isNotBlank()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = registro.nombre,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    EtiquetaEstado(contactado = contactado)
+                }
+                if (!registro.contacto.isNullOrBlank()) {
                     Text(stringResource(R.string.panel_contacto, registro.contacto))
                 }
                 Text(stringResource(R.string.panel_correo, registro.correo))
@@ -218,10 +278,50 @@ private fun RegistroCard(registro: Registro, onEliminar: () -> Unit) {
                 registro.frecuencia?.let {
                     Text(stringResource(R.string.formulario_aporte, stringResource(it.etiqueta)))
                 }
-                if (registro.mensaje.isNotBlank()) {
+                if (!registro.mensaje.isNullOrBlank()) {
                     Text(stringResource(R.string.panel_mensaje, registro.mensaje))
+                }
+
+                if (!contactado) {
+                    Spacer(Modifier.height(8.dp))
+                    FilledTonalButton(
+                        onClick = onContactado,
+                        enabled = !procesando,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        if (procesando) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(18.dp),
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Icon(Icons.Default.Check, contentDescription = null)
+                        }
+                        Spacer(Modifier.size(8.dp))
+                        Text(stringResource(R.string.panel_marcar_contactado))
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun EtiquetaEstado(contactado: Boolean) {
+    Surface(
+        shape = MaterialTheme.shapes.small,
+        color = if (contactado) MaterialTheme.colorScheme.tertiaryContainer
+        else MaterialTheme.colorScheme.secondaryContainer
+    ) {
+        Text(
+            text = stringResource(
+                if (contactado) R.string.panel_estado_contactado
+                else R.string.panel_estado_pendiente
+            ),
+            style = MaterialTheme.typography.labelMedium,
+            color = if (contactado) MaterialTheme.colorScheme.onTertiaryContainer
+            else MaterialTheme.colorScheme.onSecondaryContainer,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        )
     }
 }

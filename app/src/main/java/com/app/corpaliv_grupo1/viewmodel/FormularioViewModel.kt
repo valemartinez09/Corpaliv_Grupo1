@@ -1,35 +1,31 @@
 package com.app.corpaliv_grupo1.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.corpaliv_grupo1.R
+import com.app.corpaliv_grupo1.data.remote.dto.RegistroRequest
 import com.app.corpaliv_grupo1.model.ArchivoAdjunto
 import com.app.corpaliv_grupo1.model.EstadoEnvio
 import com.app.corpaliv_grupo1.model.FormularioErrores
 import com.app.corpaliv_grupo1.model.FormularioUiState
 import com.app.corpaliv_grupo1.model.FrecuenciaDonacion
 import com.app.corpaliv_grupo1.model.ModalidadColaboracion
-import com.app.corpaliv_grupo1.model.Registro
 import com.app.corpaliv_grupo1.model.TipoColaborador
 import com.app.corpaliv_grupo1.navigation.Routes
-import com.app.corpaliv_grupo1.repository.RegistroRepository
+import com.app.corpaliv_grupo1.repository.RegistroRemoteRepository
+import com.app.corpaliv_grupo1.repository.Resultado
 import com.app.corpaliv_grupo1.ui.utils.Archivos
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class FormularioViewModel(
-    application: Application,
-    savedStateHandle: SavedStateHandle
-) : AndroidViewModel(application) {
-
-    // Base de datos local (Room) donde se guardan los registros que verá el funcionario
-    private val repositorio = RegistroRepository.getInstance(application)
+class FormularioViewModel @JvmOverloads constructor(
+    savedStateHandle: SavedStateHandle,
+    private val repositorio: RegistroRemoteRepository = RegistroRemoteRepository()
+) : ViewModel() {
 
     // El tipo (persona/empresa) llega como argumento de la ruta.
     private val tipo: TipoColaborador =
@@ -121,25 +117,26 @@ class FormularioViewModel(
             _estado.update { it.copy(envio = EstadoEnvio.ENVIANDO, errorGuardado = false) }
             val s = _estado.value
 
-            // Guarda en Room (validar() ya aseguró que hay modalidad)
-            val guardado = s.modalidad?.let { modalidad ->
-                runCatching {
-                    repositorio.guardar(
-                        Registro(
-                            tipo = s.tipo,
-                            nombre = s.nombre.trim(),
-                            // Solo las empresas tienen persona de contacto
-                            contacto = if (s.tipo == TipoColaborador.EMPRESA) s.contacto.trim() else "",
-                            correo = s.correo.trim(),
-                            modalidad = modalidad,
-                            frecuencia = s.frecuencia,
-                            mensaje = s.mensaje.trim()
-                        )
-                    )
-                }.isSuccess
-            } ?: false
+            val modalidad = s.modalidad
+            if (modalidad == null) {
+                _estado.update { it.copy(envio = EstadoEnvio.EDITANDO, errorGuardado = true) }
+                return@launch
+            }
 
-            delay(1500)
+            val datos = RegistroRequest(
+                tipo = s.tipo,
+                nombre = s.nombre.trim(),
+                // Solo las empresas tienen persona de contacto
+                contacto = if (s.tipo == TipoColaborador.EMPRESA) s.contacto.trim() else "",
+                correo = s.correo.trim(),
+                modalidad = modalidad,
+                frecuencia = s.frecuencia,
+                mensaje = s.mensaje.trim(),
+                cartaNombre = s.carta?.nombre
+            )
+
+            // Envía el registro a registros-service
+            val guardado = repositorio.crear(datos) is Resultado.Exito
 
             _estado.update {
                 if (guardado) it.copy(envio = EstadoEnvio.ENVIADO)
