@@ -4,7 +4,8 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.corpaliv_grupo1.R
-import kotlinx.coroutines.delay
+import com.app.corpaliv_grupo1.repository.FuncionarioRepository
+import com.app.corpaliv_grupo1.repository.Resultado
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,12 +17,14 @@ data class LoginUiState(
     val clave: String = "",
     @StringRes val errorUsuario: Int? = null,
     @StringRes val errorClave: Int? = null,
-    @StringRes val errorGeneral: Int? = null,
+    val errorGeneral: String? = null,
     val cargando: Boolean = false,
     val autenticado: Boolean = false
 )
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    private val repositorio: FuncionarioRepository = FuncionarioRepository()
+) : ViewModel() {
 
     private val _estado = MutableStateFlow(LoginUiState())
     val estado: StateFlow<LoginUiState> = _estado.asStateFlow()
@@ -47,18 +50,15 @@ class LoginViewModel : ViewModel() {
 
         viewModelScope.launch {
             _estado.update { it.copy(cargando = true, errorGeneral = null) }
-            delay(800) // simula la consulta al backend
-            val correcto = s.usuario.trim() == USUARIO_DEMO && s.clave == CLAVE_DEMO
-            _estado.update {
-                if (correcto) it.copy(cargando = false, autenticado = true)
-                else it.copy(cargando = false, errorGeneral = R.string.error_credenciales)
+
+            when (val resultado = repositorio.login(s.usuario, s.clave)) {
+                is Resultado.Exito -> _estado.update {
+                    it.copy(cargando = false, autenticado = true)
+                }
+                is Resultado.Error -> _estado.update {
+                    it.copy(cargando = false, errorGeneral = resultado.mensaje)
+                }
             }
         }
-    }
-
-    private companion object {
-        // Credenciales ficticias solo para el MVP académico.
-        const val USUARIO_DEMO = "funcionario"
-        const val CLAVE_DEMO = "alba2026"
     }
 }

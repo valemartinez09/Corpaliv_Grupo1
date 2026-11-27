@@ -147,35 +147,35 @@ fun LoginFuncionarioScreen(
                         )
                     ) {
                         Text(
-                            text = stringResource(it),
+                            text = it,
                             modifier = Modifier.padding(16.dp),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold
                         )
                     }
-                }
 
-                Button(
-                    onClick = {
-                        foco.clearFocus()
-                        viewModel.ingresar()
-                    },
-                    enabled = !estado.cargando,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                ) {
-                    if (estado.cargando) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            strokeWidth = 2.dp,
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    } else {
-                        Text(
-                            text = stringResource(R.string.btn_ingresar),
-                            style = MaterialTheme.typography.titleMedium
-                        )
+                    Button(
+                        onClick = {
+                            foco.clearFocus()
+                            viewModel.ingresar()
+                        },
+                        enabled = !estado.cargando,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                    ) {
+                        if (estado.cargando) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                strokeWidth = 2.dp,
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                        } else {
+                            Text(
+                                text = stringResource(R.string.btn_ingresar),
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        }
                     }
                 }
             }

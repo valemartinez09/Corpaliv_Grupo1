@@ -1,6 +1,5 @@
 package com.app.corpaliv_grupo1.ui.screens
 
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -28,6 +27,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,14 +49,21 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.app.corpaliv_grupo1.R
+import com.app.corpaliv_grupo1.model.CategoriaPrograma
 import com.app.corpaliv_grupo1.navigation.Routes
+import com.app.corpaliv_grupo1.viewmodel.ProgramasViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProgramasScreen(navController: NavController) {
-    val colores = MaterialTheme.colorScheme
+fun ProgramasScreen(
+    navController: NavController,
+    viewModel: ProgramasViewModel = viewModel()
+) {
+    val estado by viewModel.estado.collectAsStateWithLifecycle()
 
     // Las tarjetas aparecen una tras otra al abrir la pantalla
     var visible by remember { mutableStateOf(false) }
@@ -95,38 +102,41 @@ fun ProgramasScreen(navController: NavController) {
                     style = MaterialTheme.typography.titleMedium
                 )
 
-                TarjetaAnimada(visible = visible, retardo = 0) {
-                    TarjetaPrograma(
-                        icono = Icons.Default.AccountBox,
-                        titulo = R.string.programa_inclusion_titulo,
-                        texto = R.string.programa_inclusion_texto,
-                        contenedor = colores.primaryContainer,
-                        sobreContenedor = colores.onPrimaryContainer,
-                        acento = colores.primary,
-                        sobreAcento = colores.onPrimary
-                    )
-                }
-                TarjetaAnimada(visible = visible, retardo = 150) {
-                    TarjetaPrograma(
-                        icono = Icons.Default.Build,
-                        titulo = R.string.programa_taller_titulo,
-                        texto = R.string.programa_taller_texto,
-                        contenedor = colores.secondaryContainer,
-                        sobreContenedor = colores.onSecondaryContainer,
-                        acento = colores.secondary,
-                        sobreAcento = colores.onSecondary
-                    )
-                }
-                TarjetaAnimada(visible = visible, retardo = 300) {
-                    TarjetaPrograma(
-                        icono = Icons.Default.Face,
-                        titulo = R.string.programa_escuela_titulo,
-                        texto = R.string.programa_escuela_texto,
-                        contenedor = colores.tertiaryContainer,
-                        sobreContenedor = colores.onTertiaryContainer,
-                        acento = colores.tertiary,
-                        sobreAcento = colores.onTertiary
-                    )
+                val error = estado.error
+                when {
+                    estado.cargando -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
+
+                    error != null -> {
+                        Text(
+                            text = error,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Button(onClick = viewModel::cargar) {
+                            Text(stringResource(R.string.btn_reintentar))
+                        }
+                    }
+
+                    else -> {
+                        estado.programas.forEachIndexed { indice, programa ->
+                            val estilo = estiloDe(programa.categoria)
+                            TarjetaAnimada(visible = visible, retardo = indice * 150) {
+                                TarjetaPrograma(
+                                    icono = estilo.icono,
+                                    titulo = programa.titulo,
+                                    texto = programa.descripcion,
+                                    contenedor = estilo.contenedor,
+                                    sobreContenedor = estilo.sobreContenedor,
+                                    acento = estilo.acento,
+                                    sobreAcento = estilo.sobreAcento
+                                )
+                            }
+                        }
+                    }
                 }
 
                 Spacer(Modifier.height(8.dp))
@@ -149,6 +159,38 @@ fun ProgramasScreen(navController: NavController) {
     }
 }
 
+/** Ícono y colores de la tarjeta según la categoría que entrega el backend. */
+private data class EstiloPrograma(
+    val icono: ImageVector,
+    val contenedor: Color,
+    val sobreContenedor: Color,
+    val acento: Color,
+    val sobreAcento: Color
+)
+
+@Composable
+private fun estiloDe(categoria: CategoriaPrograma): EstiloPrograma {
+    val c = MaterialTheme.colorScheme
+    return when (categoria) {
+        CategoriaPrograma.INCLUSION -> EstiloPrograma(
+            Icons.Default.AccountBox,
+            c.primaryContainer, c.onPrimaryContainer, c.primary, c.onPrimary
+        )
+        CategoriaPrograma.PRODUCCION -> EstiloPrograma(
+            Icons.Default.Build,
+            c.secondaryContainer, c.onSecondaryContainer, c.secondary, c.onSecondary
+        )
+        CategoriaPrograma.ESCUELA -> EstiloPrograma(
+            Icons.Default.Face,
+            c.tertiaryContainer, c.onTertiaryContainer, c.tertiary, c.onTertiary
+        )
+        CategoriaPrograma.OTRO -> EstiloPrograma(
+            Icons.Default.Favorite,
+            c.surfaceVariant, c.onSurfaceVariant, c.primary, c.onPrimary
+        )
+    }
+}
+
 /** Entrada con fade + deslizamiento vertical, con retardo para escalonar las tarjetas. */
 @Composable
 private fun TarjetaAnimada(
@@ -168,8 +210,8 @@ private fun TarjetaAnimada(
 @Composable
 private fun TarjetaPrograma(
     icono: ImageVector,
-    @StringRes titulo: Int,
-    @StringRes texto: Int,
+    titulo: String,
+    texto: String,
     contenedor: Color,
     sobreContenedor: Color,
     acento: Color,
@@ -204,14 +246,14 @@ private fun TarjetaPrograma(
                     }
                 }
                 Text(
-                    text = stringResource(titulo),
+                    text = titulo,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
                 )
             }
             Text(
-                text = stringResource(texto),
+                text = texto,
                 style = MaterialTheme.typography.bodyLarge
             )
         }

@@ -134,6 +134,6 @@
     <string name="error_guardado">No se pudo guardar tu registro. Inténtalo de nuevo.</string>
 
 
-
+    <string name="btn_reintentar">Reintentar</string>
 
 </resources>

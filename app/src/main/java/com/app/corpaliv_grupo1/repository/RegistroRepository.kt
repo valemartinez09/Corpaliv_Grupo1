@@ -15,7 +15,6 @@ class RegistroRepository private constructor(context: Context) {
     private val dao = AppDatabase.getInstance(context).registroDao()
 
     /** Registros del más reciente al más antiguo; se emite de nuevo cada vez que cambia la tabla. */
-
     val registros: Flow<List<Registro>> =
         dao.observarTodos().map { lista -> lista.mapNotNull { it.aModelo() } }
 
