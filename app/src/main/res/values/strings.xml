@@ -31,6 +31,13 @@
     <string name="colaborar_empresa">Como empresa</string>
     <string name="colaborar_empresa_desc">Alianzas de RSE, capacitaciones y compras corporativas.</string>
 
+    <string name="indicadores_titulo">Valores de referencia de hoy</string>
+    <string name="indicadores_cargando">Cargando indicadores…</string>
+    <string name="indicadores_error">No pudimos cargar los indicadores. Revisa tu conexión e inténtalo de nuevo.</string>
+    <string name="indicadores_reintentar">Reintentar</string>
+    <string name="indicadores_fecha">Actualizado: %1$s</string>
+    <string name="indicadores_fuente">Fuente: mindicador.cl</string>
+
     <!-- Formulario -->
     <string name="formulario_titulo_persona">Registro de persona</string>
     <string name="formulario_titulo_empresa">Registro de empresa</string>
@@ -110,6 +117,7 @@
     <string name="programa_escuela_titulo">Escuela Jan Van Dijk</string>
     <string name="programa_escuela_texto">La Escuela Especial Jan Van Dijk ofrece formación pensada para desarrollar la autonomía y la participación de cada estudiante.</string>
 
+
     <!-- Carta de presentación (voluntariado) -->
 
     <string name="carta_titulo">Carta de presentación (opcional)</string>
@@ -133,7 +141,7 @@
     <string name="btn_cancelar">Cancelar</string>
     <string name="error_guardado">No se pudo guardar tu registro. Inténtalo de nuevo.</string>
 
-
     <string name="btn_reintentar">Reintentar</string>
+
 
 </resources>
