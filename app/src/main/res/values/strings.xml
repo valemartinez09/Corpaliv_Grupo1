@@ -129,6 +129,13 @@
     <string name="resumen_carta">Carta de presentación</string>
 
     <!-- Panel del funcionario: registros guardados -->
+    <string name="panel_error_carga">No pudimos cargar los registros. Revisa tu conexión.</string>
+    <string name="panel_error_accion">No se pudo completar la acción. Intenta de nuevo.</string>
+    <string name="panel_reintentar">Reintentar</string>
+    <string name="panel_marcar_contactado">Marcar como contactado</string>
+    <string name="panel_estado_contactado">Contactado</string>
+    <string name="panel_estado_pendiente">Pendiente</string>
+    <string name="cd_actualizar">Actualizar registros</string>
     <string name="panel_vacio">Aún no hay registros de interés.</string>
     <string name="panel_total">Registros recibidos: %1$d</string>
     <string name="panel_contacto">Contacto: %1$s</string>
