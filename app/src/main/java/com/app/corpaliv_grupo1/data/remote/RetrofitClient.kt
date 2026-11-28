@@ -4,10 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-
-    // 10.0.2.2 = el PC visto desde el emulador de Android Studio.
-    // Si pruebas en un celular físico, cambia esta IP por la IP local de tu PC.
-    private const val HOST = "http://10.0.2.2"
+    private const val HOST = "http://localhost"
 
     private const val BASE_REGISTROS = "$HOST:9201/"
     private const val BASE_FUNCIONARIOS = "$HOST:9202/"
