@@ -2,6 +2,7 @@ package com.app.corpaliv_grupo1.repository
 
 import com.app.corpaliv_grupo1.data.remote.dto.ApiError
 import com.google.gson.Gson
+import kotlinx.coroutines.CancellationException
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -18,6 +19,8 @@ sealed class Resultado<out T> {
 suspend fun <T> llamarApi(bloque: suspend () -> T): Resultado<T> =
     try {
         Resultado.Exito(bloque())
+    } catch (e: CancellationException) {
+        throw e
     } catch (e: HttpException) {
         val error = runCatching {
             Gson().fromJson(e.response()?.errorBody()?.string(), ApiError::class.java)
@@ -30,4 +33,7 @@ suspend fun <T> llamarApi(bloque: suspend () -> T): Resultado<T> =
     } catch (e: IOException) {
         android.util.Log.e("API", "Fallo de red: ${e.javaClass.simpleName} - ${e.message}", e)
         Resultado.Error("No se pudo conectar con el servidor")
+    } catch (e: Exception) {
+        android.util.Log.e("API", "Respuesta inesperada: ${e.message}", e)
+        Resultado.Error("Respuesta inesperada del servidor")
     }
